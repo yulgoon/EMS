@@ -1,0 +1,88 @@
+{% extends "base1.html" %}
+{% block title %}게시물 리스트{% endblock title %}
+{% block content %}
+<table border="1" width="100%" cellpadding="0" cellspacing="0" 
+    class="table tabel-bordered tabel-hover">
+    <tr align="center">
+        <td colspan="4">장고 게시판</td>
+        {% if listcount == 0 %}
+            <td align="center">등록된 글이 없습니다.</td>
+        {% else %} {# 등록된 게시물이 존재하는 경우 #}
+        <td align="center">글 개수 : {{listcount}}</td>
+    </tr>
+    <tr align="center" valige="middle">
+        <td width="8%">번호</td>
+        <td width="50%">제목</td>
+        <td width="14%">작성자</td>
+        <td width="17%">날짜</td>
+        <td width="11%">조회수</td>
+    </tr>
+<!-- 글 목록 출력 시작 -->
+    {% for bo in board %}
+        <tr align="center" valign="middle">
+            <td>{{bo.num}}</td>
+            <td align="left">
+                {% if bo.file1 %} <!-- 첨부파일 있어? -->
+                    <a href="/file/board/{{bo.file1}}">@</a>
+                {% else %} <!-- 첨부파일 없어 -->
+                    &nbsp;&nbsp;&nbsp;
+                {% endif %}
+                <a href="../info/{{bo.num}}/">{{bo.title}}</a>
+            </td>
+            <td>{{bo.name}}</td>
+            <td>{{bo.regdate}}</td>
+            <td>{{bo.readcnt}}</td>
+        </tr>
+    {% endfor %}
+<!-- 글 목록 출력 끝 -->
+
+    <!-- Pagination -->
+    <tr>
+        <td colspan="5" style="text-align: center;">
+            <div class="pagination">
+                <div style="width: 35%; margin:5px; display: inline;">
+                    {% if board.has_previous %} <!-- 앞 페이지 존재? -->
+                        <a class="abutton" href="?pageNum=1">맨 앞으로</a>
+                        <!-- board.previous_page_number 
+                            : pageNum-1 . 현재 페이지의 바로 앞 페이지-->
+                        <a class="abutton"
+                            href="?pageNum={{board.previous_page_number}}">이전</a>
+                    {% endif %}
+                </div>
+                <div style="width: 30%; margin: 5px; display: inline;">
+                    <!-- board.paginator.page_range: 전체 페이지 개수 -->
+                    {% for page in board.paginator.page_range %}
+                        <!-- 
+                            board.number : 현재 페이지 
+                            board.number|add:-2 >> 앞 2개,
+                            board.number|add:2 >> 뒤 2개
+                            만 보여주겠다.
+                        -->
+                        {% if page >= board.number|add:-2 and page <= board.number|add:2 %}
+                        <span class="{% if page == board.number %}current{% endif %}">
+                            <a href="?pageNum={{page}}">{{page}}</a>
+                        </span>
+                        {% elif page >= board.number|add:-3 and page <= board.number|add:3 %}
+                            ..
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div style="width: 35%; margin: 5px; display: inline;">
+                    {% if board.has_next %} <!-- 다음 페이지가 존재? -->
+                        <!-- board.next_page_number : 다음 페이지 번호 pageNum +1 
+                             board.paginator.num_pages : 마지막 페이지 번호 -->
+                        <a class="abutton" href="?pageNum={{board.next_page_number}}">다음</a>
+                        <a class="abutton" href="?pageNum={{board.paginator.num_pages}}">맨 뒤로</a>
+                    {% endif %}
+                </div>
+            </div>
+        </td>
+    </tr>
+    {% endif %} {# :: if listcount == 0 의 닫는 구문 #}
+    <tr align="right">
+        <td colspan="5">
+            <a href="../write">[글쓰기]</a>
+        </td>
+    </tr>
+</table>
+{% endblock content %}

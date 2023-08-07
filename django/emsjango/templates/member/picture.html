@@ -1,0 +1,14 @@
+<!-- templates/member/picture.html -->
+<script type="text/javascript">
+//opener: 현재 윈도우를 생성한 다른 윈도우(나를 연 윈도우) => join.html
+//img: join.html의 이미지 태그를 선택
+// <... id="pic" ...>
+    img = opener.document.getElementById("pic");
+    img.src = "/file/picture/{{fname}}"; //opener에 이미지 출력
+// <form name="f">
+//  <input type="hidden" name="picture" .. value="">
+//</form>
+    opener.document.f.picture.value="{{fname}}"; //opener의 hidden 객체의 값
+    self.close(); //현재 페이지 닫기
+</script>
+    

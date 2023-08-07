@@ -1,0 +1,25 @@
+{% extends "base1.html" %}
+{% block title %}날씨예측{% endblock %}
+{% block content %}
+<center>
+    <div style="width:700px;">
+        <h4><b><i class="fa fa-thermometer-three-quarters fa-fw"></i>&nbsp;날씨 예측하기</b></h4>
+    <table style="border-collapse: collapse;">
+        <tr align="center" valign="middle">
+            <th>날짜</td>
+            <th>평균 온도</td>
+            <th>최저 온도</td>
+            <th>최고 온도</td>
+        </tr>
+    {% for weather in list %}
+        <tr align="center" valign="middle">
+            <td>{{weather.today}}</td>
+            <td>{{weather.avg_temp}}</td>
+            <td>{{weather.min_temp}}</td>
+            <td>{{weather.max_temp}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+</center>
+{% endblock %}

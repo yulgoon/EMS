@@ -1,0 +1,14 @@
+<h3>사진업로드</h3>
+<!-- 
+   enctype="multipart/form-data" : 선택한 파일의 이름과 내용까지 서버로 전송
+                                반드시 method="post" 여야함
+-->
+<form action="../picture/" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+//{#MIME type 표시법: text/html, img/jpeg, ... => 문서의 형식을 표시하기 위한 표준 방식#}
+<tr><td><input type="file" name="picture" id="imageFile" accept="img/*">
+   <input type="submit" value="사진등록">
+</td></tr>
+</table>
+</form>
